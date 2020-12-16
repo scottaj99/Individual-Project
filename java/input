@@ -1,0 +1,11 @@
+		  public void main(int args) {
+			  //hello i have shit myslef
+      
+        int a;
+			  int j;
+        a = 5;
+        j = 2;
+			  if ((a>j) || (a==j)) {
+				  a--;
+			  }
+			  }
