@@ -1,11 +1,11 @@
-		  public void main(int args) {
-			  //hello i have shit myslef
-      
+
+		public void main(int args) {
         int a;
-			  int j;
+		int j;
         a = 5;
         j = 2;
 			  if ((a>j) || (a==j)) {
 				  a--;
 			  }
 			  }
+			  for (int i: x)

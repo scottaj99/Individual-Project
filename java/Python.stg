@@ -8,6 +8,10 @@ variable(type,name) ::= " "
 
 globalVariable ::= variable
 
+class(modifier,name,locals, stats) ::= <<
+class <name>:
+>>
+
 function(modifier,type,name,args,locals,stats) ::= <<
 def <name>(<args; separator=", ">):
     <stats>

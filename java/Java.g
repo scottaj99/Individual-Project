@@ -22,8 +22,8 @@ scope {
   List functions;
 }
 @init {
-  $program::globals = new ArrayList();
-  $program::functions = new ArrayList();
+    $program::globals = new ArrayList();
+    $program::functions = new ArrayList();
 }
     :   declaration+
         -> program(globals={$program::globals},functions={$program::functions})
@@ -36,6 +36,7 @@ declaration
 
 // ack is $function.st ambig?  It can mean the rule's dyn scope or
 // the ref in this rule.  Ack.
+
 
 variable
     :   type declarator ';'
@@ -65,6 +66,11 @@ scope slist;
                     stats={$slist::stats},
                     args={$p})
     ;
+
+
+
+
+
 
 formalParameter
     :   type declarator 
@@ -112,7 +118,6 @@ scope slist;
     | block -> statementList(locals={$slist::locals}, stats={$slist::stats})
     | assignStat ';' -> {$assignStat.st}
     | ';' -> {new StringTemplate(";")}
-    | '//' LINE_COMMENT -> comment(expr={$LINE_COMMENT.text})
 
     ;
 
@@ -122,7 +127,7 @@ scope slist;
   $slist::locals = new ArrayList();
   $slist::stats = new ArrayList();
 }
-    :   'for' '(' e1=assignStat ';' e2=expr ';' e3=assignStat ')' block
+    :   'for' '(' e1=assignStat ';' e2=condExpr ';' e3=assignStat ')' block
         -> forLoop(e1={$e1.st},e2={$e2.st},e3={$e3.st},
                    locals={$slist::locals}, stats={$slist::stats})
     ;
@@ -206,7 +211,7 @@ WS  :   (' ' | '\t' | '\r' | '\n')+ {$channel=HIDDEN;}
 //     :   '/*' .*? '*/' -> comment(text={$COMMENT.st})
 //     ;
 
-LINE_COMMENT
-    :   ~('\n'|'\r')*  ('\r\n' | '\r' | '\n') 
-    ;
+// LINE_COMMENT
+//     :   ~('\n'|'\r')*  ('\r\n' | '\r' | '\n') 
+//     ;
 
