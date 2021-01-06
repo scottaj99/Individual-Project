@@ -49,6 +49,13 @@ declarator
     :   ID -> {new StringTemplate($ID.text)}
     ;
 
+comment
+    :   '//' ID ';'
+
+    // |   '//' ~('\n'|'\r')*     // a line comment could appear at the end of the file without CR/LF
+    -> comment(text={$ID.text})
+    ; 
+
 function
 scope {
     String name;
@@ -114,6 +121,8 @@ scope slist;
     : forStat -> {$forStat.st}
     |  whileStat -> {$whileStat.st}
     |  ifStat -> {$ifStat.st}
+    |  elseStat -> {$elseStat.st}
+    | elseIfStat -> {$elseIfStat.st}
     | expr ';' -> statement(expr={$expr.st})
     | block -> statementList(locals={$slist::locals}, stats={$slist::stats})
     | assignStat ';' -> {$assignStat.st}
@@ -153,6 +162,27 @@ scope slist;
                    locals={$slist::locals}, stats={$slist::stats})
     ;
 
+elseStat
+scope slist;
+@init {
+  $slist::locals = new ArrayList();
+  $slist::stats = new ArrayList();
+}
+    :   'else' block
+        -> else(
+                   locals={$slist::locals}, stats={$slist::stats})
+    ;
+
+elseIfStat
+scope slist;
+@init {
+  $slist::locals = new ArrayList();
+  $slist::stats = new ArrayList();
+}
+    :   'else' 'if' '('e1=expr ')' block
+        -> elif( e1={$e1.st},
+                   locals={$slist::locals}, stats={$slist::stats})
+    ;
 
 assignStat
     :   ID '=' expr -> assign(lhs={$ID.text}, rhs={$expr.st})
@@ -212,6 +242,6 @@ WS  :   (' ' | '\t' | '\r' | '\n')+ {$channel=HIDDEN;}
 //     ;
 
 // LINE_COMMENT
-//     :   ~('\n'|'\r')*  ('\r\n' | '\r' | '\n') 
+//     :   '//' ~('\n'|'\r')*  ('\r\n' | '\r' | '\n') 
 //     ;
 

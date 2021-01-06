@@ -17,11 +17,18 @@ def <name>(<args; separator=", ">):
     <stats>
 >>
 
+comment(text) ::= <<
+	# <text>
+>>
+
+
 type_int() ::= "int"
 
 type_char() ::= "char"
 
 type_user_object(name) ::= "<name>"
+
+user_comment(text) ::= "<text>"
 
 parameter(type,name) ::= "<name>"
 
@@ -50,6 +57,17 @@ while ( <e1> ):
 
 if(e1,locals,stats) ::=<<
 if ( <e1> ):
+	<stats; separator="\n">
+
+>>
+
+else(locals,stats) ::=<<
+else:
+	<stats; separator="\n">
+>>
+
+elif(e1, locals,stats) ::=<<
+elif ( <e1> ):
 	<stats; separator="\n">
 >>
 
