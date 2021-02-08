@@ -62,19 +62,19 @@ identifierPrimary(i, is, identifierSuffix) ::=<<
 >>
 
 primaryExpression(p, selectors, symbol) ::=<<
-<p><selectors><symbols>
+<p><selectors;separator="\n"><symbol>
 >> 
 
 multiplicativeExpression(u, symbols, us) ::=<<
-<u><symbols><us>
+<u><symbols;separator="\n"><us;separator="\n">
 >>
 
 additiveExpression(m1, symbols, ms) ::=<<
-<m1><symbols><ms>
+<m1><symbols;separator="\n"><ms;separator="\n">
 >> 
 
 shiftExpression(a1, s, a) ::=<<
-<a1><s><a>
+<a1><s;separator="\n"><a;separator="\n">
 >>
 
 less(x) ::=<<
@@ -86,40 +86,40 @@ test(i) ::=<<
 >>
 
 relationalExpression(shiftExpression, relationalOp, shiftExpressions) ::=<<
-<shiftExpression><relationalOp><shiftExpressions>
+<shiftExpression><relationalOp><shiftExpressions;separator="\n">
 >>
 
 instanceOfExpression(relationalExpression, type) ::=<<
-<relationalExpression>
+<relationalExpression><type>
 >>
 
 equalityExpression(i, symbols, is) ::=<<
-<i><symbols><is>
+<i><symbols;separator="\n"><is;separator="\n">
 >>
 
 andExpression(e, es) ::=<<
-<e><es>
+<e><es;separator="\n">
 >>
 
 conditionalExpression(conditionalOrExpression, expression) ::=<<
 <conditionalOrExpression><expression>
->> 
+>>  
 
 
 conditionalOrExpression(conditionalAndExpression, cs) ::=<<
-<conditionalAndExpression><cs>
->> 
+<conditionalAndExpression><cs; separator="\n">
+>>  
 
 conditionalAndExpression(i, is) ::=<<
-<i><is>
+<i><is;separator="\n">
 >> 
 
 inclusiveOrExpression(e, es) ::=<<
-<e><es>
+<e><es;separator="\n">
 >> 
 
 exclusiveOrExpression(a, as) ::=<<
-<a><as>
+<a><as;separator="\n">
 >> 
 
 expression(conditionalExpression, assignmentOperator, expression) ::=<<
@@ -245,4 +245,12 @@ while <expression>:
     <statement>
     <expressionList>
 
+>>
+
+increment(p, selectors) ::=<<
+<p><selectors; separator=".">=<p><selectors; separator=".">+1
+>>
+
+decrement(p, selectors) ::=<<
+<p><selectors; separator=".">=<p><selectors; separator=".">-1
 >>
