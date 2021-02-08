@@ -1213,6 +1213,7 @@ scope slist;
         )*
         (   x='++'->increment(p={$primary.st}, selectors={$slist::locals})
         |   x='--'->decrement(p={$primary.st}, selectors={$slist::locals})
+        |   ->primaryExpression(p={$primary.st}, selectors={$slist::locals})
         )?
     ;
 castExpression 

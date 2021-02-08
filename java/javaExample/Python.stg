@@ -254,3 +254,9 @@ increment(p, selectors) ::=<<
 decrement(p, selectors) ::=<<
 <p><selectors; separator=".">=<p><selectors; separator=".">-1
 >>
+
+
+enhancedForLoop(variableModifiers, type, i, expression, statement) ::=<<
+    for <i> in <expression>:
+        <statement>
+>> 

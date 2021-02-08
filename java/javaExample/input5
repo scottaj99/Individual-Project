@@ -1,0 +1,8 @@
+class Main
+{
+    public void increment(int i, int[] objects) {
+        for (int num: objects){
+          i+=num;
+        }
+    }
+}
