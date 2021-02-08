@@ -1,0 +1,125 @@
+group increment;
+int() ::=<<
+    #int to do
+>>
+
+typePrimitiveType(primitiveType) ::=<<
+
+    #typePrimitiveType to do
+
+>> 
+normalParameterDecl(variableModifiers, type, i) ::=<<
+<i>
+>> 
+
+formalParameterDeclsNormal(n, ns) ::=<<
+<n><if (ns)>,<ns; separator=","><endif>
+>>
+
+formalParameters(formalParameterDecls) ::=<<
+<formalParameterDecls>
+>>
+
+identifierPrimary(i, is, identifierSuffix) ::=<<
+<i><is><identifierSuffix>
+>>
+
+primaryExpression(p, selectors, symbol) ::=<<
+<p><selectors;separator="\n"><symbol>
+>> 
+
+multiplicativeExpression(u, symbols, us) ::=<<
+<u><symbols;separator="\n"><us;separator="\n">
+>>
+
+additiveExpression(m1, symbols, ms) ::=<<
+<m1><symbols;separator="\n"><ms;separator="\n">
+>> 
+
+shiftExpression(a1, s, a) ::=<<
+<a1><s;separator="\n"><a;separator="\n">
+>>
+
+relationalExpression(shiftExpression, relationalOp, shiftExpressions) ::=<<
+<shiftExpression><relationalOp><shiftExpressions;separator="\n">
+>>
+
+instanceOfExpression(relationalExpression, type) ::=<<
+<relationalExpression><type>
+>>
+
+equalityExpression(i, symbols, is) ::=<<
+<i><symbols;separator="\n"><is;separator="\n">
+>>
+
+andExpression(e, es) ::=<<
+<e><es;separator="\n">
+>>
+
+exclusiveOrExpression(a, as) ::=<<
+<a><as;separator="\n">
+>> 
+inclusiveOrExpression(e, es) ::=<<
+<e><es;separator="\n">
+>>
+conditionalAndExpression(i, is) ::=<<
+<i><is;separator="\n">
+>> 
+conditionalExpression(conditionalOrExpression, expression) ::=<<
+<conditionalOrExpression><expression>
+>> 
+
+
+conditionalOrExpression(conditionalAndExpression, cs) ::=<<
+<conditionalAndExpression><cs; separator="\n">
+>> 
+expression(conditionalExpression, assignmentOperator, expression) ::=<<
+<conditionalExpression><assignmentOperator><expression>
+>>
+
+expressionStatement(expr) ::=<<
+<expr>
+>> 
+block(b) ::=<<
+<b; separator="\n">
+>> 
+
+methodDeclarationSemiColon(mod, typeParameters, type, i, formalParameters, block) ::=<<
+def <i>(<formalParameters>):
+    <block>
+>>
+
+classBodyDeclarationMemberDecl(memberDecl) ::=<<
+<memberDecl>
+>> 
+
+classBody(cbd) ::=<<
+<cbd; separator="\n">
+>> 
+
+normalClassDeclaration(mod, i, params, type, typeList, block) ::=<<
+class <i>:
+    <block>
+>> 
+
+compilationUnit(annotations, packageDeclaration, importDeclaration, typeDeclaration) ::=<<
+<annotations>
+<importDeclaration>
+<typeDeclaration>
+>>
+
+assign() ::=<<
+=
+>>
+
+test(i) ::=<<
+ <i>
+>>
+
+increment(p, selectors) ::=<<
+<p><selectors; separator=".">=<p><selectors; separator=".">+1
+>>
+
+decrement(p, selectors) ::=<<
+<p><selectors; separator=".">=<p><selectors; separator=".">-1
+>>

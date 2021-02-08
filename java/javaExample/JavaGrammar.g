@@ -324,16 +324,21 @@ scope slist {
                           Parser section
 *********************************************************************************************/
            
-compilationUnit 
+compilationUnit
+scope slist;
+@init {
+  $slist::locals = new ArrayList();
+  $slist::stats = new ArrayList();
+} 
     :   (   (annotations
             )?
             packageDeclaration
         )?
-        (importDeclaration
+        (i=importDeclaration {$slist::locals.add($i.st);}
         )*
-        (typeDeclaration
-        )* ->compilationUnit(annotations={$annotations.st},packageDeclaration={$packageDeclaration.st}, importDeclaration={$importDeclaration.st},
-            typeDeclaration={$typeDeclaration.st})
+        (t=typeDeclaration {$slist::stats.add($t.st);}
+        )* ->compilationUnit(annotations={$annotations.st},packageDeclaration={$packageDeclaration.st}, importDeclaration={$slist::locals},
+            typeDeclaration={$slist::stats})
     ;
 packageDeclaration 
     :   'package' qualifiedName
@@ -372,12 +377,12 @@ scope slist;
         )* ->qualifiedImportName(i1={$i1.text}, ids={$slist::locals})
     ;
 typeDeclaration 
-    :   classOrInterfaceDeclaration ->{$classOrInterfaceDeclaration.st}
-    |   ';'
+    :   a=classOrInterfaceDeclaration ->{$a.st}
+    |   ';' -> noTypeDeclaration()
     ;
 classOrInterfaceDeclaration 
-    :    classDeclaration ->{$classDeclaration.st}
-    |   interfaceDeclaration ->{$interfaceDeclaration.st}
+    :    a=classDeclaration ->{$a.st}
+    |   a=interfaceDeclaration ->{$a.st}
     ;
     
   //TODO: not required for python but possibly for other languages
@@ -403,8 +408,8 @@ variableModifiers
         )*
     ;
 classDeclaration 
-    :   normalClassDeclaration
-    |   enumDeclaration
+    :   a=normalClassDeclaration->{$a.st}
+    |   a=enumDeclaration->{$a.st}
     ;
 normalClassDeclaration 
     :   modifiers  'class' i=IDENTIFIER
@@ -498,8 +503,8 @@ scope slist;
         )* -> enumBodyDeclarations(cbd={$slist::locals})
     ;
 interfaceDeclaration 
-    :   normalInterfaceDeclaration
-    |   annotationTypeDeclaration
+    :  a= normalInterfaceDeclaration->{$a.st}
+    |   a=annotationTypeDeclaration->{$a.st}
     ;
     
 normalInterfaceDeclaration 
@@ -551,10 +556,10 @@ classBodyDeclaration
     |   memberDecl -> classBodyDeclarationMemberDecl(memberDecl={$memberDecl.st})
     ;
 memberDecl 
-    :    fieldDeclaration
-    |    methodDeclaration
-    |    classDeclaration
-    |    interfaceDeclaration
+    :    a=fieldDeclaration->{$a.st}
+    |    a=methodDeclaration->{$a.st}
+    |    a=classDeclaration->{$a.st}
+    |    a=interfaceDeclaration->{$a.st}
     ;
 methodDeclaration
 scope slist;
@@ -904,9 +909,9 @@ staticBlock returns [JCBlock tree]
     ;
 */
 blockStatement 
-    :   localVariableDeclarationStatement
-    |   classOrInterfaceDeclaration
-    |   statement
+    :   a=localVariableDeclarationStatement ->{$a.st}
+    |   a=classOrInterfaceDeclaration->{$a.st}
+    |   a=statement->{$a.st}
     ;
 localVariableDeclarationStatement 
     :   localVariableDeclaration
@@ -925,17 +930,17 @@ scope slist;
         vs = {$slist::locals})
     ;
 statement 
-    :   block
+    :   block -> {$block.st}
             
     |   ('assert'
         )
         e1=expression (':' e2=expression)? ';' ->assertStatementNL(e1={$e1.st}, e2={$e2.st})
     |   'assert'  e1=expression (':' e2=expression)? ';' ->assertStatement(e1={$e1.st}, e2={$e2.st})          
     |   'if' parExpression s1=statement ('else' s2=statement)?  ->ifStatement(parExpression={$parExpression.st},s1={$s1.st}, s2={$s2.st})        
-    |   forstatement
+    |   forstatement ->{$forstatement.st}
     |   'while' parExpression st=statement ->whilestatement(parExpression={$parExpression.st}, statement={$st.st})
     |   'do' st=statement 'while' parExpression ';' ->doStatement(statement={$st.st}, parExpression={$parExpression.st})
-    |   trystatement
+    |   trystatement->{$trystatement.st}
     |   'switch' parExpression '{' switchBlockStatementGroups '}' ->switchStatement(parExpression={$parExpression.st},
                                                                                     switchBlockStatementGroups={$switchBlockStatementGroups.st})
     |   'synchronized' parExpression block ->syncStatement(parExpression={$parExpression.st}, block={$block.st})
@@ -950,6 +955,7 @@ statement
     |   expression  ';' ->expressionStatement(expr={$expression.st})     
     |   i=IDENTIFIER ':' statement -> identifierStatement(i={$i.text})
     |   ';' ->endStatement()
+    | 'System.out.println(' i=IDENTIFIER ');' ->print(i={$i.text})
     ;
 switchBlockStatementGroups
 scope slist;
@@ -1014,11 +1020,11 @@ forstatement
                 (expression
                 )? ';' 
                 (expressionList
-                )? ')' statement ->normalForLoop(forInit={$forInit.st}, expression={$expression.st}, expressionList={$expressionList.st})
+                )? ')' statement ->normalForLoop(forInit={$forInit.st}, expression={$expression.st}, expressionList={$expressionList.st}, statement={$statement.st})
     ;
 forInit 
-    :   localVariableDeclaration
-    |   expressionList
+    :   localVariableDeclaration ->{$localVariableDeclaration.st}
+    |   expressionList ->{$expressionList.st}
     ;
 parExpression 
     :   '(' expression ')' -> parExpression(expression={$expression.st})
@@ -1139,7 +1145,7 @@ scope slist;
 relationalOp 
     :    '<' '=' ->lessEquals()
     |    '>' '=' ->greaterEquals()
-    |   '<' -> less()
+    |   x='<' -> less(x={$x.text})
     |   '>' -> greater()
     ;
 shiftExpression 
@@ -1165,8 +1171,8 @@ scope slist;
 }
     :  m1= multiplicativeExpression
         (   
-            (   x='+' {$slist::stats.add($x);}
-            |   x='-' {$slist::stats.add($x);}
+            (   x='+' {$slist::stats.add($x.text);}
+            |   x='-' {$slist::stats.add($x.text);}
             )
             m2=multiplicativeExpression {$slist::locals.add($m2.st);}
          )* ->additiveExpression(m1={$m1.st}, symbols={$slist::stats}, ms={$slist::locals})
@@ -1191,7 +1197,7 @@ unaryExpression
     |   '-' u=unaryExpression -> minus(unaryExpression={$u.st})
     |   '++' u=unaryExpression -> increment(unaryExpression={$u.st})
     |   '--' u=unaryExpression -> decrement(unaryExpression={$u.st})
-    |   unaryExpressionNotPlusMinus
+    |   unaryExpressionNotPlusMinus ->{$unaryExpressionNotPlusMinus.st}
     ;
 unaryExpressionNotPlusMinus
 scope slist;
@@ -1201,13 +1207,13 @@ scope slist;
 } 
     :   '~' unaryExpression ->tildeExpression(unaryExpression={$unaryExpression.st})
     |   '!' unaryExpression ->notExpression(unaryExpression={$unaryExpression.st})
-    |   castExpression
+    |   castExpression ->{$castExpression.st}
     |   primary
         (s=selector {$slist::locals.add($s.st);}
         )*
-        (   x='++'
-        |   x='--'
-        )? ->primaryExpression(p={$primary.st}, selectors={$slist::locals}, symbol = {$x})
+        (   x='++'->increment(p={$primary.st}, selectors={$slist::locals})
+        |   x='--'->decrement(p={$primary.st}, selectors={$slist::locals})
+        )?
     ;
 castExpression 
     :   '(' primitiveType ')' unaryExpression ->primitiveCast(primitiveType={$primitiveType.st}, unaryExpression={$unaryExpression.st})
@@ -1235,8 +1241,8 @@ scope slist;
         )? -> identifierPrimary(i={$i.text},is={$slist::locals}, identifierSuffix={$identifierSuffix.st})
     |   'super'
         superSuffix ->superPrimary(superSuffix={$superSuffix.st})
-    |   literal
-    |   creator
+    |   literal ->{$literal.st}
+    |   creator ->{$creator.st}
     |   primitiveType
         ('[' ']'
         )*
@@ -1284,7 +1290,7 @@ creator
     :   'new' nonWildcardTypeArguments classOrInterfaceType classCreatorRest ->nonWildcardTypeCreator(nonWildcardTypeArguments={$nonWildcardTypeArguments.st},
                                                                                 classOrInterfaceType={$classOrInterfaceType.st}, classCreatorRest={$classCreatorRest.st} )
     |   'new' classOrInterfaceType classCreatorRest ->creator( classOrInterfaceType={$classOrInterfaceType.st}, classCreatorRest={$classCreatorRest.st} )
-    |   arrayCreator
+    |   arrayCreator ->{$arrayCreator.st}
     ;
 arrayCreator
 scope slist;
@@ -1307,8 +1313,8 @@ scope slist;
         )*-> expressionArrayCreator(createdName={$createdName.st}, e1={$e1.st}, es={$slist::locals})
     ;
 variableInitializer 
-    :   arrayInitializer
-    |   expression
+    :   arrayInitializer ->{$arrayInitializer.st}
+    |   expression -> {$expression.st}
     ;
 arrayInitializer 
 scope slist;
@@ -1352,15 +1358,15 @@ arguments
         )? ')' ->arguments(expressionList={$expressionList.st})
     ;
 literal 
-    :   INTLITERAL
-    |   LONGLITERAL
-    |   FLOATLITERAL
-    |   DOUBLELITERAL
-    |   CHARLITERAL
-    |   STRINGLITERAL
-    |   TRUE
-    |   FALSE
-    |   NULL
+    :   i=INTLITERAL ->test(i={$i.text})
+    |   i=LONGLITERAL->test(i={$i.text})
+    |   i=FLOATLITERAL->test(i={$i.text})
+    |   i=DOUBLELITERAL->test(i={$i.text})
+    |   i=CHARLITERAL->test(i={$i.text})
+    |   i=STRINGLITERAL->test(i={$i.text})
+    |   i=TRUE->test(i={$i.text})
+    |   i=FALSE->test(i={$i.text})
+    |   i=NULL->test(i={$i.text})
     ;
 /**
  * These are headers help to make syntatical predicates, not necessary but helps to make grammar faster.

@@ -1,7 +1,18 @@
 package hello;
+import math.numpy.py;
 import hello.*;
 class HelloWorld {
-    public static void main(String[] args) {
-        System.out.println("Hello, World!"); 
+    public static void main(String[] args, int i) {
+		while(i<10)
+		{
+			if (i<5){
+				System.out.println(i);
+				i+=2;
+			}
+			else {
+				System.out.println(i);
+				i-=1;
+			} 
+		}
     }
 }
