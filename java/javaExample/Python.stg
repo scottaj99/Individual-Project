@@ -58,7 +58,7 @@ formalParameters(formalParameterDecls) ::=<<
 >>
 
 identifierPrimary(i, is, identifierSuffix) ::=<<
-<i><is><identifierSuffix>
+<i><if (is)>.<is; separator="."><identifierSuffix><endif>
 >>
 
 primaryExpression(p, selectors, symbol) ::=<<
@@ -153,6 +153,7 @@ while <parExpression>:
 methodDeclarationSemiColon(mod, typeParameters, type, i, formalParameters, block) ::=<<
 def <i>(<formalParameters>):
     <block>
+
 >>
 
 classBodyDeclarationMemberDecl(memberDecl) ::=<<
@@ -198,7 +199,7 @@ print(<i>)
 >>
 
 variableDeclarator(i, variableInitializer) ::=<<
-<i> = <variableInitializer>
+<i> <if (variableInitializer)>= <variableInitializer><else>= None<endif>
 >> 
 localVariableDeclaration(variableModifiers, type, variableDeclarator) ::=<<
 <variableDeclarator>
@@ -260,3 +261,83 @@ enhancedForLoop(variableModifiers, type, i, expression, statement) ::=<<
     for <i> in <expression>:
         <statement>
 >> 
+
+fieldDeclaration(mod, type, variableDeclarator, variableDeclarators) ::=<<
+    <variableDeclarator><if (variableDeclarators)>,<variableDeclarators; separator=","><endif>
+
+>>
+
+typeArgument(type) ::=<<
+
+    #typeArgument to do
+
+>> 
+
+typeArguments(t, ts) ::=<<
+
+    #typeArguments to do
+
+>> 
+
+thisPrimary(i, identifierSuffix) ::=<<
+self.<i><identifierSuffix>
+>>
+
+expressionSelector(expression) ::=<<
+
+    #expressionSelector to do
+
+>>
+
+endStatement() ::=<<
+
+    #endStatement to do
+
+>>
+
+returnStatement(expr) ::=<<
+
+    #returnStatement to do
+
+>> 
+
+greater() ::=<<
+
+    #greater to do
+
+>>
+
+expressionIdentifierSuffix(expression) ::=<<
+
+    #expressionIdentifierSuffix to do
+
+>>
+identiferSelector(i, arguments) ::=<<
+
+    #identiferSelector to do
+
+>> 
+
+classBodyDeclarationBlock(block) ::=<<
+
+    #classBodyDeclarationBlock to do
+
+>>
+
+comment(comment) ::=<<
+#<comment; separator=" ">
+>>
+
+multiLineComment(comment) ::=<<
+    '''
+    <comment; separator=" ">
+    '''
+>>
+
+commentText(comment) ::=<<
+    <comment; separator=" ">
+>>
+
+noTypeDeclaration() ::=<<
+
+>>

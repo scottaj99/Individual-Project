@@ -956,7 +956,29 @@ statement
     |   i=IDENTIFIER ':' statement -> identifierStatement(i={$i.text})
     |   ';' ->endStatement()
     | 'System.out.println(' i=IDENTIFIER ');' ->print(i={$i.text})
+    | comment -> {$comment.st}
+    | multiLineComment -> {$multiLineComment.st}
     ;
+
+comment
+scope slist;
+@init {
+  $slist::locals = new ArrayList();
+  $slist::stats = new ArrayList();
+}
+: '//' (i=IDENTIFIER {$slist::locals.add($i.text);})*  -> comment(comment={$slist::locals})
+    ;
+
+multiLineComment
+scope slist;
+@init {
+  $slist::locals = new ArrayList();
+  $slist::stats = new ArrayList();
+}
+: '/*' (i =IDENTIFIER {$slist::locals.add($i.text);})*'*/' -> multiLineComment(comment ={$slist::locals})
+;
+
+    
 switchBlockStatementGroups
 scope slist;
 @init {
@@ -1458,6 +1480,10 @@ fragment
 DoubleSuffix
     :   'd' | 'D'
     ;
+
+// COMMENT_TEXT
+//     : ~('\n'|'\r')*  ('\r\n' | '\r' | '\n')
+//     ;
         
 FLOATLITERAL
     :   NonIntegerNumber FloatSuffix
@@ -1512,36 +1538,37 @@ WS
             }          
     ;
     
-COMMENT
-         @init{
-            boolean isJavaDoc = false;
-        }
-    :   '/*'
-            {
-                if((char)input.LA(1) == '*'){
-                    isJavaDoc = true;
-                }
-            }
-        (options {greedy=false;} : . )* 
-        '*/'
-            {
-                if(isJavaDoc==true){
-                    $channel=HIDDEN;
-                }else{
-                    skip();
-                }
-            }
-    ;
-LINE_COMMENT
-    :   '//' ~('\n'|'\r')*  ('\r\n' | '\r' | '\n') 
-            {
-                skip();
-            }
-    |   '//' ~('\n'|'\r')*     // a line comment could appear at the end of the file without CR/LF
-            {
-                skip();
-            }
-    ;   
+// COMMENT
+//          @init{
+//             boolean isJavaDoc = false;
+//         }
+//     :   '/*'
+//             {
+//                 if((char)input.LA(1) == '*'){
+//                     isJavaDoc = true;
+//                 }
+//             }
+//         (options {greedy=false;} : . )* 
+//         '*/'
+//             {
+//                 if(isJavaDoc==true){
+//                     $channel=HIDDEN;
+//                 }else{
+//                     skip();
+//                 }
+//             }
+//     ;
+// LINE_COMMENT
+//     :   '//' ~('\n'|'\r')*  ('\r\n' | '\r' | '\n') 
+//             {
+//                 skip();
+//             }
+//     |   '//' ~('\n'|'\r')*     // a line comment could appear at the end of the file without CR/LF
+//             {
+//                 skip();
+//             }
+//     ;
+
         
 ABSTRACT
     :   'abstract'
