@@ -16,7 +16,7 @@ cd translator
 
 4. generate helper java files:
 ``` sh
-java org.antlr.Tool Java.g
+java org.antlr.Tool JavaGrammar.g
 ```
 
 5. Compile java files:
@@ -28,5 +28,7 @@ javac *.java
 ``` sh
 java Main Python.stg input
 ```
-
-7. Change the java code in the file titled 'input' to change the code that is being produced. 
+'input' in this instance should be directing the tool to where the file is that you want to translate, for example if you wanted to translate the forLoop from the test folder you would use the following:
+``` sh
+java Main Python.stg test/forLoop
+```
