@@ -1,0 +1,354 @@
+group Python;
+
+packageDeclaration(name) ::=<<
+
+    #packageDeclaration to do
+
+>> 
+
+qualifiedName(i, is) ::=<<
+
+    #qualifiedName to do
+
+>> 
+
+multiIDImportDeclaration(i1, ids) ::=<<
+#import Statement commented out due to uncertainty
+#from <i1> import <ids; separator=".">
+
+>> 
+
+singleIDImportDeclaration(i) ::=<<
+#import Statement commented out due to uncertainty
+#from <i> import *
+>> 
+
+classOrInterfaceType(i, typeArguments, ids, tas) ::=<<
+
+    #classOrInterfaceType to do
+
+>>
+
+typeClassOrInterfaceType(classOrInterfaceType) ::=<<
+
+    #typeClassOrInterfaceType to do
+
+>> 
+
+normalParameterDecl(variableModifiers, type, i) ::=<<
+<i>
+>> 
+
+int() ::=<<
+    #int to do
+>> 
+
+typePrimitiveType(primitiveType) ::=<<
+
+    #typePrimitiveType to do
+
+>> 
+
+formalParameterDeclsNormal(n, ns) ::=<<
+<n><if (ns)>,<ns; separator=","><endif>
+>>
+
+formalParameters(formalParameterDecls) ::=<<
+<formalParameterDecls>
+>>
+
+identifierPrimary(i, is, identifierSuffix) ::=<<
+<i><if (is)>.<is; separator="."><identifierSuffix><endif>
+>>
+
+primaryExpression(p, selectors, symbol) ::=<<
+<p><selectors;separator="\n"><symbol>
+>> 
+
+multiplicativeExpression(u, symbols, us) ::=<<
+<u><symbols;separator="\n"><us;separator="\n">
+>>
+
+additiveExpression(m1, symbols, ms) ::=<<
+<m1><symbols;separator="\n"><ms;separator="\n">
+>> 
+
+shiftExpression(a1, s, a) ::=<<
+<a1><s;separator="\n"><a;separator="\n">
+>>
+
+less(x) ::=<<
+ <x>
+>>
+
+test(i) ::=<<
+ <i>
+>>
+
+relationalExpression(shiftExpression, relationalOp, shiftExpressions) ::=<<
+<shiftExpression><relationalOp><shiftExpressions;separator="\n">
+>>
+
+instanceOfExpression(relationalExpression, type) ::=<<
+<relationalExpression><type>
+>>
+
+equalityExpression(i, symbols, is) ::=<<
+<i><symbols;separator="\n"><is;separator="\n">
+>>
+
+andExpression(e, es) ::=<<
+<e><es;separator="\n">
+>>
+
+conditionalExpression(conditionalOrExpression, expression) ::=<<
+<conditionalOrExpression><expression>
+>>  
+
+
+conditionalOrExpression(conditionalAndExpression, cs) ::=<<
+<conditionalAndExpression><cs; separator="\n">
+>>  
+
+conditionalAndExpression(i, is) ::=<<
+<i><is;separator="\n">
+>> 
+
+inclusiveOrExpression(e, es) ::=<<
+<e><es;separator="\n">
+>> 
+
+exclusiveOrExpression(a, as) ::=<<
+<a><as;separator="\n">
+>> 
+
+expression(conditionalExpression, assignmentOperator, expression) ::=<<
+<conditionalExpression><assignmentOperator><expression>
+>>
+
+parExpression(expression) ::=<<
+<expression>
+>>
+
+expressionStatement(expr) ::=<<
+<expr>
+>> 
+
+block(b) ::=<<
+<b; separator="\n">
+>> 
+
+ifStatement(parExpression,s1, s2) ::=<<
+if <parExpression>:
+    <s1>
+else:
+    <s2>
+>>
+
+whilestatement(parExpression, statement) ::=<<
+while <parExpression>:
+    <statement>
+>> 
+
+methodDeclarationSemiColon(mod, typeParameters, type, i, formalParameters, block) ::=<<
+def <i>(<formalParameters>):
+    <block>
+
+>>
+
+classBodyDeclarationMemberDecl(memberDecl) ::=<<
+<memberDecl>
+>> 
+
+classBody(cbd) ::=<<
+<cbd; separator="\n">
+>> 
+
+normalClassDeclaration(mod, i, params, type, typeList, block) ::=<<
+class <i>:
+    <block>
+>> 
+
+compilationUnit(annotations, packageDeclaration, importDeclaration, typeDeclaration) ::=<<
+<annotations>
+<importDeclaration>
+<typeDeclaration>
+>>
+
+assign() ::=<<
+=
+>>
+
+addAssign() ::=<<
++=
+>>
+
+subAssign() ::=<<
+-=
+>>
+expressionList(expression, es) ::=<<
+<expression><es; separator="\n">
+>>
+
+arguments(expressionList) ::=<<
+<expressionList>
+>>
+
+print(i) ::=<<
+print(<i>)
+>>
+
+variableDeclarator(i, variableInitializer) ::=<<
+<i> <if (variableInitializer)>= <variableInitializer><else>= None<endif>
+>> 
+localVariableDeclaration(variableModifiers, type, variableDeclarator) ::=<<
+<variableDeclarator>
+>>
+
+localVariableDeclarationStatement(localVariableDeclaration) ::=<<
+<localVariableDeclaration>
+>> 
+
+doStatement(statement, parExpression) ::=<<
+while True:
+    <statement>
+    if <parExpression>:
+        continue
+    else:
+        break
+>>
+
+caseLabel(expression) ::=<<
+elif switchVal==<expression>
+>> 
+
+breakStatement(i) ::=<<
+>>
+
+switchBlockStatementGroup(switchLabel, bs) ::=<<
+<switchLabel>:
+    <bs; separator="\n">
+>> 
+
+switchBlockStatementGroups(s) ::=<<
+<s; separator="\n">
+>>
+
+switchStatement(parExpression, switchBlockStatementGroups) ::=<<
+switchVal = <parExpression>
+if 2==1:
+    #to remove, unreachable condition
+    print("error")
+<switchBlockStatementGroups>
+>> 
+
+normalForLoop(forInit, expression, expressionList, statement) ::=<<
+<forInit>
+while <expression>:
+    <statement>
+    <expressionList>
+
+>>
+
+increment(p, selectors) ::=<<
+<p><selectors; separator=".">=<p><selectors; separator=".">+1
+>>
+
+decrement(p, selectors) ::=<<
+<p><selectors; separator=".">=<p><selectors; separator=".">-1
+>>
+
+
+enhancedForLoop(variableModifiers, type, i, expression, statement) ::=<<
+    for <i> in <expression>:
+        <statement>
+>> 
+
+fieldDeclaration(mod, type, variableDeclarator, variableDeclarators) ::=<<
+    <variableDeclarator><if (variableDeclarators)>,<variableDeclarators; separator=","><endif>
+
+>>
+
+typeArgument(type) ::=<<
+
+    #typeArgument to do
+
+>> 
+
+typeArguments(t, ts) ::=<<
+
+    #typeArguments to do
+
+>> 
+
+thisPrimary(i, identifierSuffix) ::=<<
+self.<i><identifierSuffix>
+>>
+
+expressionSelector(expression) ::=<<
+
+    #expressionSelector to do
+
+>>
+
+endStatement() ::=<<
+
+    #endStatement to do
+
+>>
+
+returnStatement(expr) ::=<<
+
+    #returnStatement to do
+
+>> 
+
+greater() ::=<<
+
+    #greater to do
+
+>>
+
+expressionIdentifierSuffix(expression) ::=<<
+
+    #expressionIdentifierSuffix to do
+
+>>
+identiferSelector(i, arguments) ::=<<
+
+    #identiferSelector to do
+
+>> 
+
+classBodyDeclarationBlock(block) ::=<<
+
+    <block>
+
+>>
+
+comment(comment) ::=<<
+# <comment>
+>>
+
+multiLineComment(comment) ::=<<
+'''
+<comment>
+'''
+>>
+
+commentText(comment) ::=<<
+    <comment; separator=" ">
+>>
+
+noTypeDeclaration() ::=<<
+
+>>
+
+defaultcase() ::=<<
+else
+>>
+
+methodDeclarationBrackets(mod, typeParameters, i, formalParameters, qualifiedNameList, explicitConstructorInvocation, blockStatements) ::= <<
+    <i>(<formalParameters>):
+        <blockStatements; separator="\n">
+>>
