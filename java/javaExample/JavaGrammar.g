@@ -569,7 +569,7 @@ scope slist;
 }  
     :
         /* For constructor, return type is null, name is 'init' */
-         modifiers
+        modifiers
         (typeParameters
         )?
         i=IDENTIFIER
@@ -955,27 +955,17 @@ statement
     |   expression  ';' ->expressionStatement(expr={$expression.st})     
     |   i=IDENTIFIER ':' statement -> identifierStatement(i={$i.text})
     |   ';' ->endStatement()
-    | 'System.out.println(' i=IDENTIFIER ');' ->print(i={$i.text})
+    | 'System.out.println(' literal ');' ->print(i={$literal.st})
     | comment -> {$comment.st}
     | multiLineComment -> {$multiLineComment.st}
     ;
 
 comment
-scope slist;
-@init {
-  $slist::locals = new ArrayList();
-  $slist::stats = new ArrayList();
-}
-: '//' (i=IDENTIFIER {$slist::locals.add($i.text);})*  -> comment(comment={$slist::locals})
+: i=LINE_COMMENT  -> comment(comment={$i.text})
     ;
 
 multiLineComment
-scope slist;
-@init {
-  $slist::locals = new ArrayList();
-  $slist::stats = new ArrayList();
-}
-: '/*' (i =IDENTIFIER {$slist::locals.add($i.text);})*'*/' -> multiLineComment(comment ={$slist::locals})
+: COMMENT -> multiLineComment(comment ={$COMMENT.text})
 ;
 
     
@@ -1390,6 +1380,7 @@ literal
     |   i=TRUE->test(i={$i.text})
     |   i=FALSE->test(i={$i.text})
     |   i=NULL->test(i={$i.text})
+    |   i=IDENTIFIER -> test(i={$i.text})
     ;
 /**
  * These are headers help to make syntatical predicates, not necessary but helps to make grammar faster.
@@ -1538,36 +1529,15 @@ WS
             }          
     ;
     
-// COMMENT
-//          @init{
-//             boolean isJavaDoc = false;
-//         }
-//     :   '/*'
-//             {
-//                 if((char)input.LA(1) == '*'){
-//                     isJavaDoc = true;
-//                 }
-//             }
-//         (options {greedy=false;} : . )* 
-//         '*/'
-//             {
-//                 if(isJavaDoc==true){
-//                     $channel=HIDDEN;
-//                 }else{
-//                     skip();
-//                 }
-//             }
-//     ;
-// LINE_COMMENT
-//     :   '//' ~('\n'|'\r')*  ('\r\n' | '\r' | '\n') 
-//             {
-//                 skip();
-//             }
-//     |   '//' ~('\n'|'\r')*     // a line comment could appear at the end of the file without CR/LF
-//             {
-//                 skip();
-//             }
-//     ;
+COMMENT
+    :   '/*'
+        (options {greedy=false;} : . )* 
+        '*/'
+    ;
+LINE_COMMENT
+    :   '//' ~('\n'|'\r')*  ('\r\n' | '\r' | '\n')
+    |   '//' ~('\n'|'\r')*     // a line comment could appear at the end of the file without CR/LF
+    ;
 
         
 ABSTRACT

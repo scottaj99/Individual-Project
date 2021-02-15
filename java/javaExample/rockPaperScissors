@@ -34,4 +34,14 @@ class RockPaperScissor {
         this.config = configType;
     }
 
+    RockPaperScissor(){
+        //userInput = new ConsoleInput();
+        //userOutput = new ConsoleOutput();
+        //computerInput = new RandInput();
+        //config = new ConfigFromFile();
+        //errorLog = ErrorLog.getInstance();
+        //property = new ArrayList<String>();
+    }
+
+
 }

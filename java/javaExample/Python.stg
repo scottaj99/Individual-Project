@@ -219,11 +219,10 @@ while True:
 >>
 
 caseLabel(expression) ::=<<
-elif <expression>
+elif switchVal==<expression>
 >> 
 
 breakStatement(i) ::=<<
-break <i>
 >>
 
 switchBlockStatementGroup(switchLabel, bs) ::=<<
@@ -236,8 +235,11 @@ switchBlockStatementGroups(s) ::=<<
 >>
 
 switchStatement(parExpression, switchBlockStatementGroups) ::=<<
-if <parExpression>:
-    <switchBlockStatementGroups>
+switchVal = <parExpression>
+if 2==1:
+    #to remove, unreachable condition
+    print("error")
+<switchBlockStatementGroups>
 >> 
 
 normalForLoop(forInit, expression, expressionList, statement) ::=<<
@@ -325,13 +327,13 @@ classBodyDeclarationBlock(block) ::=<<
 >>
 
 comment(comment) ::=<<
-#<comment; separator=" ">
+# <comment>
 >>
 
 multiLineComment(comment) ::=<<
-    '''
-    <comment; separator=" ">
-    '''
+'''
+<comment>
+'''
 >>
 
 commentText(comment) ::=<<
@@ -340,4 +342,8 @@ commentText(comment) ::=<<
 
 noTypeDeclaration() ::=<<
 
+>>
+
+defaultcase() ::=<<
+else
 >>

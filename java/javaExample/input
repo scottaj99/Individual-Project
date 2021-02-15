@@ -6,6 +6,13 @@ class HelloWorld {
 		while(i<10)
 		{
 			if (i<5){
+				//hello
+				/* this is an example
+				of
+				a
+				multi
+				line
+				comment */
 				System.out.println(i);
 				i+=2;
 			}
