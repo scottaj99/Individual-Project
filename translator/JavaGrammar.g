@@ -455,7 +455,7 @@ enumDeclaration
         i=IDENTIFIER
         ('implements' typeList
         )?
-        enumBody ->enumDeclaration(mod={$modifiers.st}, id={$i.text}, typeList={$typeList.st})
+        enumBody ->enumDeclaration(mod={$modifiers.st}, id={$i.text}, typeList={$typeList.st}, enumBody={$enumBody.st})
     ;
     
 enumBody 
@@ -627,10 +627,10 @@ variableDeclarator
  */
 interfaceBodyDeclaration 
     :
-        interfaceFieldDeclaration
-    |   interfaceMethodDeclaration
-    |   interfaceDeclaration
-    |   classDeclaration
+        interfaceFieldDeclaration -> {$interfaceFieldDeclaration.st}
+    |   interfaceMethodDeclaration -> {$interfaceMethodDeclaration.st}
+    |   interfaceDeclaration -> {$interfaceDeclaration.st}
+    |   classDeclaration -> {$classDeclaration.st}
     |   ';' ->interfaceBodyDeclarationNoBody()
     ;
 interfaceMethodDeclaration 
@@ -802,9 +802,8 @@ annotation
                   |   elementValue
                   )? 
             ')' 
-        )? ->annotation(qualifiedName={$qualifiedName.st}, elementValuePairs= {$elementValuePairs.st},
-        elementValue={$elementValue.st})
-    ;
+        )? ->annotation(qualifiedName={$qualifiedName.st})
+        ;
 elementValuePairs 
 scope slist;
 @init {
@@ -819,9 +818,9 @@ elementValuePair
     :   i = IDENTIFIER '=' elementValue -> elementValuePair(i={$i.text}, elementValue={$elementValue.st})
     ;
 elementValue 
-    :   conditionalExpression
-    |   annotation
-    |   elementValueArrayInitializer
+    :   conditionalExpression ->{$conditionalExpression.st}
+    |   annotation ->{$annotation.st}
+    |   elementValueArrayInitializer ->{$elementValueArrayInitializer.st}
     ;
 elementValueArrayInitializer 
 scope slist;
@@ -859,12 +858,12 @@ scope slist;
  * NOTE: here use interfaceFieldDeclaration for field declared inside annotation. they are sytactically the same.
  */
 annotationTypeElementDeclaration 
-    :   annotationMethodDeclaration
-    |   interfaceFieldDeclaration
-    |   normalClassDeclaration
-    |   normalInterfaceDeclaration
-    |   enumDeclaration
-    |   annotationTypeDeclaration
+    :   annotationMethodDeclaration ->{$annotationMethodDeclaration.st}
+    |   interfaceFieldDeclaration ->{$interfaceFieldDeclaration.st}
+    |   normalClassDeclaration ->{$normalClassDeclaration.st}
+    |   normalInterfaceDeclaration ->{$normalInterfaceDeclaration.st}
+    |   enumDeclaration ->{$enumDeclaration.st}
+    |   annotationTypeDeclaration ->{$annotationTypeDeclaration.st}
     |   ';' ->annotationTypeElementDeclarationEmpty()
     ;
 annotationMethodDeclaration 
@@ -953,7 +952,7 @@ statement
             (i=IDENTIFIER
             )? ';' ->continueStatement(i={$i.text})
     |   expression  ';' ->expressionStatement(expr={$expression.st})     
-    |   i=IDENTIFIER ':' statement -> identifierStatement(i={$i.text})
+    |   i=IDENTIFIER ':' x=statement -> identifierStatement(i={$i.text}, statement={$x.st})
     |   ';' ->endStatement()
     | 'System.out.println(' literal ');' ->print(i={$literal.st})
     | comment -> {$comment.st}
@@ -961,7 +960,7 @@ statement
     ;
 
 comment
-: i=LINE_COMMENT  -> comment(comment={$i.text})
+: '//' i=LINE_COMMENT  -> comment(comment={$i.text})
     ;
 
 multiLineComment
@@ -1066,9 +1065,9 @@ assignmentOperator
     |   '|='  -> orAssign()
     |   '^=' -> powerAssign()
     |   '%=' -> modAssign()
-    |    '<' '<' '=' ->lessAssing()
-    |    '>' '>' '>' '=' ->greaterAssign()
-    |    '>' '>' '=' ->greaterAssign()
+    |    x='<<=' ->lessAssing(x={$x.text})
+    |    x='>>>='->greaterAssign(x={$x.text})
+    |    x='>>='->greaterAssign(x={$x.text})
     ;
 conditionalExpression 
     :   conditionalOrExpression
@@ -1133,8 +1132,8 @@ scope slist;
 } 
     :   i=instanceOfExpression
         (   
-            (   x='==' {$slist::stats.add($x);}
-            |   x='!=' {$slist::stats.add($x);}
+            (   x='==' {$slist::stats.add($x.text);}
+            |   x='!=' {$slist::stats.add($x.text);}
             )
             i2=instanceOfExpression {$slist::locals.add($i2.st);}
         )* ->equalityExpression(i={$i.st}, symbols={$slist::stats}, is={$slist::locals})
@@ -1193,9 +1192,9 @@ multiplicativeExpression
     :
         u=unaryExpression
         (   
-            (   x='*' {$slist::stats.add($x);}
-            |   x='/' {$slist::stats.add($x);}
-            |   x='%' {$slist::stats.add($x);}
+            (   x='*' {$slist::stats.add($x.text);}
+            |   x='/' {$slist::stats.add($x.text);}
+            |   x='%' {$slist::stats.add($x.text);}
             )
             u2=unaryExpression {$slist::locals.add($u2.st);}
         )* ->multiplicativeExpression(u={$u.st}, symbols={$slist::stats}, us={$slist::locals})
@@ -1287,7 +1286,7 @@ scope slist;
     |   '.' nonWildcardTypeArguments i=IDENTIFIER arguments ->nonWildCardIdentifier(nonWildcardTypeArguments={$nonWildcardTypeArguments.st}, i={$i.text}, arguments={$arguments.st})
     |   '.' 'this' ->thisIdentifier()
     |   '.' 'super' arguments ->argumentsIdentifier(arguments={$arguments.st})
-    |   innerCreator
+    |   innerCreator -> {$innerCreator.st}
     ;
 selector  
     :   '.' i=IDENTIFIER
@@ -1296,7 +1295,7 @@ selector
     |   '.' 'this' ->thisSelector()
     |   '.' 'super'
         superSuffix ->superSelector(superSuffix={$superSuffix.st})
-    |   innerCreator
+    |   innerCreator -> {$innerCreator.st}
     |   '[' expression ']' ->expressionSelector(expression={$expression.st})
     ;
 creator 
@@ -1344,8 +1343,8 @@ scope slist;
         '}' ->arrayInitializer(v1={$v1.st}, vs={$slist::locals})            //Yang's fix, position change.
     ;
 createdName 
-    :   classOrInterfaceType
-    |   primitiveType
+    :   classOrInterfaceType -> {$classOrInterfaceType.st}
+    |   primitiveType -> {$primitiveType.st}
     ;
 innerCreator  
     :   '.' 'new'
@@ -1377,11 +1376,17 @@ literal
     |   i=DOUBLELITERAL->test(i={$i.text})
     |   i=CHARLITERAL->test(i={$i.text})
     |   i=STRINGLITERAL->test(i={$i.text})
-    |   i=TRUE->test(i={$i.text})
-    |   i=FALSE->test(i={$i.text})
+    |   TRUE->true()
+    |   FALSE->false()
     |   i=NULL->test(i={$i.text})
     |   i=IDENTIFIER -> test(i={$i.text})
+    |   a=IDENTIFIER '?' b=literal ':' c=literal ->comparisonLiteral(a={$a.text}, b={$b.st}, c= {$c.st})
     ;
+
+// comparisonLiteral
+//     :
+//     a=IDENTIFIER '?' b=literal ':' c=literal ->comparisonLiteral(a={$a.text}, b={$b.st}, c= {$c.st})
+//     ;
 /**
  * These are headers help to make syntatical predicates, not necessary but helps to make grammar faster.
  */
@@ -1535,8 +1540,8 @@ COMMENT
         '*/'
     ;
 LINE_COMMENT
-    :   '//' ~('\n'|'\r')*  ('\r\n' | '\r' | '\n')
-    |   '//' ~('\n'|'\r')*     // a line comment could appear at the end of the file without CR/LF
+    :   '//'~('\n'|'\r')*  ('\r\n' | '\r' | '\n')
+    |   '//'~('\n'|'\r')*     // a line comment could appear at the end of the file without CR/LF
     ;
 
         

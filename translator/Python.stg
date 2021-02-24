@@ -24,15 +24,11 @@ singleIDImportDeclaration(i) ::=<<
 >> 
 
 classOrInterfaceType(i, typeArguments, ids, tas) ::=<<
-
-    #classOrInterfaceType to do
-
+<i><typeArguments>
 >>
 
 typeClassOrInterfaceType(classOrInterfaceType) ::=<<
-
-    #typeClassOrInterfaceType to do
-
+<classOrInterfaceType>
 >> 
 
 normalParameterDecl(variableModifiers, type, i) ::=<<
@@ -41,6 +37,13 @@ normalParameterDecl(variableModifiers, type, i) ::=<<
 
 int() ::=<<
     #int to do
+>>
+
+
+byte() ::=<<
+
+    #byte to do
+
 >> 
 
 typePrimitiveType(primitiveType) ::=<<
@@ -58,11 +61,11 @@ formalParameters(formalParameterDecls) ::=<<
 >>
 
 identifierPrimary(i, is, identifierSuffix) ::=<<
-<i><if (is)>.<is; separator="."><identifierSuffix><endif>
+<i><if (is)>.<is; separator="."><endif>(<identifierSuffix>)
 >>
 
 primaryExpression(p, selectors, symbol) ::=<<
-<p><selectors;separator="\n"><symbol>
+<p><selectors><symbol>
 >> 
 
 multiplicativeExpression(u, symbols, us) ::=<<
@@ -135,19 +138,19 @@ expressionStatement(expr) ::=<<
 >> 
 
 block(b) ::=<<
-<b; separator="\n">
+<if(b)><b; separator="\n"><else>pass<endif>
 >> 
 
 ifStatement(parExpression,s1, s2) ::=<<
 if <parExpression>:
     <s1>
-else:
-    <s2>
+<if(s2)>else:
+    <s2><endif>
 >>
 
 whilestatement(parExpression, statement) ::=<<
 while <parExpression>:
-    <statement>
+    <if(statement)><statement><else>pass<endif>
 >> 
 
 methodDeclarationSemiColon(mod, typeParameters, type, i, formalParameters, block) ::=<<
@@ -165,8 +168,8 @@ classBody(cbd) ::=<<
 >> 
 
 normalClassDeclaration(mod, i, params, type, typeList, block) ::=<<
-class <i>:
-    <block>
+class <i><if (typeList)>(<typeList>)<endif>:
+    <if(block)><block><else>None<endif>
 >> 
 
 compilationUnit(annotations, packageDeclaration, importDeclaration, typeDeclaration) ::=<<
@@ -223,11 +226,12 @@ elif switchVal==<expression>
 >> 
 
 breakStatement(i) ::=<<
+break
 >>
 
 switchBlockStatementGroup(switchLabel, bs) ::=<<
 <switchLabel>:
-    <bs; separator="\n">
+    <if(bs)><bs; separator="\n"><else>  pass<endif>
 >> 
 
 switchBlockStatementGroups(s) ::=<<
@@ -244,7 +248,12 @@ if 2==1:
 
 normalForLoop(forInit, expression, expressionList, statement) ::=<<
 <forInit>
+<if(expression)>
 while <expression>:
+<else>
+while True:
+
+<endif>
     <statement>
     <expressionList>
 
@@ -260,8 +269,8 @@ decrement(p, selectors) ::=<<
 
 
 enhancedForLoop(variableModifiers, type, i, expression, statement) ::=<<
-    for <i> in <expression>:
-        <statement>
+for <i> in <expression>:
+    <statement>
 >> 
 
 fieldDeclaration(mod, type, variableDeclarator, variableDeclarators) ::=<<
@@ -298,15 +307,11 @@ endStatement() ::=<<
 >>
 
 returnStatement(expr) ::=<<
-
-    #returnStatement to do
-
+return <expr>
 >> 
 
 greater() ::=<<
-
-    #greater to do
-
+>
 >>
 
 expressionIdentifierSuffix(expression) ::=<<
@@ -316,7 +321,7 @@ expressionIdentifierSuffix(expression) ::=<<
 >>
 identiferSelector(i, arguments) ::=<<
 
-    #identiferSelector to do
+   <i><if (arguments)>(<arguments>)<endif>
 
 >> 
 
@@ -351,4 +356,250 @@ else
 methodDeclarationBrackets(mod, typeParameters, i, formalParameters, qualifiedNameList, explicitConstructorInvocation, blockStatements) ::= <<
     <i>(<formalParameters>):
         <blockStatements; separator="\n">
+>>
+
+annotationTypeBody(a) ::=<<
+<if(a)><a; separator="\n"><else>
+None
+
+<endif>
+>>
+
+annotationTypeDeclaration(mod, i, annotationTypeBody) ::=<<
+class <i>:
+    <annotationTypeBody>
+>>
+
+annotation(qualifiedName, elementValuePairs, elementValue) ::= <<
+    @<qualifiedName>
+>>
+
+annotationMethodDeclaration(mod, type, i, elementValue) ::=<<
+
+    #annotationMethodDeclaration to do
+
+>>
+
+elementValuePairs(e, es) ::=<<
+
+    #elementValuePairs to do
+
+>>
+
+elementValuePair(i, elementValue) ::=<<
+
+    #elementValuePair to do
+
+>> 
+
+arrayInitializer(v1, vs) ::=<<
+[<v1><if(vs)>,<vs;separator=","><endif>]
+>> 
+
+expressionArrayCreator(createdName, e1, es) ::=<<
+
+    #expressionArrayCreator to do
+
+>> 
+
+assertStatementNL(e1, e2) ::=<<
+assert <e1>
+>> 
+
+formalParameter(variableModifiers, type, i) ::=<<
+<type> as <i>
+>>
+
+catchClause(formalParameter, block) ::=<<
+except <formalParameter>:
+    <block>
+>> 
+
+catches(c, cs) ::=<<
+
+<c>
+<cs>
+
+>>
+
+tryCatches(b1, catches) ::=<<
+try:
+    <b1>
+<catches>
+>> 
+
+timesAssign() ::=<<
+*=
+>> 
+
+divAssign() ::=<<
+/=
+>>
+
+andAssign() ::=<<
+&=
+>>
+
+orAssign() ::=<<
+|=
+>>
+
+powerAssign()::=<<
+^=
+>>
+
+modAssign()::=<<
+%=
+>>
+
+lessAssing(x)::=<<
+<x>
+>>
+
+greaterAssign(x)::=<<
+<x>
+>>
+
+short() ::=<<
+
+    #short to do
+
+>> 
+char() ::=<<
+
+    #char to do
+
+>> 
+long() ::=<<
+
+    #long to do
+
+>> 
+
+float() ::=<<
+
+    #float to do
+
+>> 
+
+double() ::=<<
+
+    #double to do
+
+>> 
+
+bool() ::=<<
+
+    #bool to do
+
+>> 
+minus(unaryExpression) ::=<<
+
+    #minus to do
+
+>> 
+
+true()::=<<
+True
+>>
+
+false()::=<<
+False
+>>
+
+interfaceMethodDeclaration(mod, typeParameters, type, i, formalParameters) ::=<<
+def <i>(<formalParameters>):
+    None
+
+>> 
+
+interfaceBody(ibd) ::=<<
+<ibd; separator=",">
+
+>> 
+
+normalInterfaceDeclaration(mod, i, params, typeList, block) ::=<<
+class <i><if (typeList)>(<typeList>)<endif>:
+    <block>
+
+>> 
+
+
+typeList(t1, ts) ::=<<
+<t1><if(ts)>,<ts; separator=","><endif>
+>>
+
+voidClassPrimary() ::=<<
+None.__class__
+>>
+
+add(unaryExpression) ::=<<
+
+    #add to do
+
+>> 
+
+continueStatement(i) ::=<<
+continue <i>
+>> 
+
+comparisonLiteral(a,b,c) ::=<<
+#todo
+>>
+
+qualifiedNameList(q1, qs) ::=<<
+q1<if(qs)><qs; separator=","><endif>
+>>
+
+throwStatement(expr) ::=<<
+raise <expr>
+>> 
+
+tryCatchesFinally(b1, catches, b2) ::=<<
+try:
+    <b1>
+<catches>
+finally:
+    <b2>
+>> 
+
+classCreatorRest(arguments, classBody) ::=<<
+<arguments><classBody>
+>> 
+
+creator(classOrInterfaceType, classCreatorRest) ::=<<
+<classOrInterfaceType>(<classCreatorRest>)
+
+>> 
+
+nonPrimitiveCast(type, unaryExpressionNotPlusMinus) ::=<<
+<type> ( <unaryExpressionNotPlusMinus> )
+>> 
+
+identifierStatement(i, statement) ::=<<
+<statement>
+>>
+
+enumConstant(annotations, i, arguments, block) ::=<<
+<i>
+>> 
+
+enumConstants(c1, cs) ::=<<
+<c1>
+<cs; separator="\n">
+
+>>
+
+enumBody(enumConstants, enumBodyDeclarations) ::=<<
+    <enumBodyDeclarations>
+<enumConstants>
+>>
+
+enumDeclaration(mod, id, typeList, enumBody) ::=<<
+class <id>:
+<enumBody>
+>>
+
+enumBodyDeclarations(cbd) ::=<<
+<cbd; separator="\n">
 >>

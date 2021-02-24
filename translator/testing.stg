@@ -1,0 +1,128 @@
+group testing;
+
+compilationUnit(annotations, packageDeclaration, importDeclaration, typeDeclaration) ::=<<
+<annotations>
+<importDeclaration>
+<typeDeclaration>
+>>
+
+classOrInterfaceType(i, typeArguments, ids, tas) ::=<<
+
+    #classOrInterfaceType to do
+
+>> 
+
+typeClassOrInterfaceType(classOrInterfaceType) ::=<<
+<classOrInterfaceType>
+>> 
+
+normalParameterDecl(variableModifiers, type, i) ::=<<
+<i>
+>> 
+
+formalParameterDeclsNormal(n, ns) ::=<<
+<n>,<ns; separator=",">
+>> 
+
+
+formalParameters(formalParameterDecls) ::="<formalParameterDecls>"
+
+
+arguments(expressionList) ::=<<
+
+    #arguments to do
+
+>>
+
+
+identifierPrimary(i, is, identifierSuffix) ::=<<
+    <i><if(is)>.<is; separator="."><endif>(<identifierSuffix>)
+>> 
+
+primaryExpression(p, selectors, symbol) ::=<<
+    <p><selectors; separator=","><symbol>
+>>
+
+multiplicativeExpression(u, symbols, us) ::=<<
+    <u><symbols;separator=","><us;separator=",">
+>>
+
+additiveExpression(m1, symbols, ms) ::=<<
+    <m1><symbols;separator=","><ms;separator=",">
+>>
+
+shiftExpression(a1, s, a) ::=<<
+    <a1><s;separator=","> <a;separator=",">
+>> 
+
+conditionalExpression(conditionalOrExpression, expression) ::=<<
+    <conditionalOrExpression><expression>
+>> 
+
+
+conditionalOrExpression(conditionalAndExpression, cs) ::=<<
+    <conditionalAndExpression><cs; separator=",">
+>> 
+
+conditionalAndExpression(i, is) ::=<<
+    <i><is; separator=",">
+>> 
+
+inclusiveOrExpression(e, es) ::=<<
+    <e><es;separator=",">
+>> 
+
+exclusiveOrExpression(a, as) ::=<<
+    <a><as;separator=",">
+>> 
+
+andExpression(e, es) ::=<<
+    <e><es; separator=",">
+>> 
+
+equalityExpression(i, symbols, is) ::=<<
+    <i> <symbols; separator=","> <is;separator=",">
+>> 
+
+instanceOfExpression(relationalExpression, type) ::=<<
+    <relationalExpression><type>
+>> 
+
+relationalExpression(shiftExpression, relationalOp, shiftExpressions) ::=<<
+    <shiftExpression><relationalOp><shiftExpressions; separator=",">
+>> 
+
+expression(conditionalExpression, assignmentOperator, expression) ::=<<
+   <conditionalExpression><assignmentOperator><expression>
+>> 
+
+expressionStatement(expr) ::=<<
+<expr>
+>> 
+
+block(b) ::=<<
+
+    <b>
+
+>> 
+
+methodDeclarationSemiColon(mod, typeParameters, type, i, formalParameters, block) ::=<<
+
+    def <i>(<formalParameters>):
+        <block>
+>>
+
+classBodyDeclarationMemberDecl(memberDecl) ::=<<
+
+    <memberDecl>
+
+>> 
+
+classBody(cbd) ::=<<
+    <cbd>
+>> 
+
+normalClassDeclaration(mod, i, params, type, typeList, block) ::=<<
+    class <i>:
+        <block>
+>>

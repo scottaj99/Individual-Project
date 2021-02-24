@@ -165,9 +165,7 @@ interfaceFieldDeclaration(mod, type, v1, vs) ::=<<
 >> 
 
 typeClassOrInterfaceType(classOrInterfaceType) ::=<<
-
-    #typeClassOrInterfaceType to do
-
+<classOrInterfaceType>
 >> 
 
 typePrimitiveType(primitiveType) ::=<<
@@ -834,7 +832,7 @@ argumentsIdentifier(arguments) ::=<<
 
 identiferSelector(i, arguments) ::=<<
 
-    #identiferSelector to do
+    <i><if (arguments)><arguments><endif>
 
 >> 
 
