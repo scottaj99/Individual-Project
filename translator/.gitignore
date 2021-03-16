@@ -1,9 +1,0 @@
-*.java
-*.class
-*.tokens
-!Main.java
-!test/test/Package0/*.java
-!test/test/success/*.java
-!test/test/selector/*.java
-!test/test/*.java
-
