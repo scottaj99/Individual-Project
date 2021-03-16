@@ -26,5 +26,11 @@ public class Main {
 	parser.setTemplateLib(templates);
 	RuleReturnScope r = parser.compilationUnit();
 	System.out.println(r.getTemplate().toString());
+	a++;
+	if (args.length > a ){
+		PrintWriter out = new PrintWriter(args[a]);
+		out.println(r.getTemplate().toString());
+		out.close();
+	}
     }
 }

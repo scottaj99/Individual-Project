@@ -61,7 +61,7 @@ formalParameters(formalParameterDecls) ::=<<
 >>
 
 identifierPrimary(i, is, identifierSuffix) ::=<<
-<i><if (is)>.<is; separator="."><endif>(<identifierSuffix>)
+<i><if (is)>.<is; separator="."><endif><identifierSuffix>
 >>
 
 primaryExpression(p, selectors, symbol) ::=<<
@@ -250,6 +250,7 @@ normalForLoop(forInit, expression, expressionList, statement) ::=<<
 <forInit>
 <if(expression)>
 while <expression>:
+
 <else>
 while True:
 

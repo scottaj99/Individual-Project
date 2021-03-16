@@ -960,7 +960,7 @@ statement
     ;
 
 comment
-: '//' i=LINE_COMMENT  -> comment(comment={$i.text})
+: i=LINE_COMMENT  -> comment(comment={$i.text})
     ;
 
 multiLineComment
@@ -1540,8 +1540,8 @@ COMMENT
         '*/'
     ;
 LINE_COMMENT
-    :   '//'~('\n'|'\r')*  ('\r\n' | '\r' | '\n')
-    |   '//'~('\n'|'\r')*     // a line comment could appear at the end of the file without CR/LF
+    :   '//' ~('\n'|'\r')*  ('\r\n' | '\r' | '\n')
+    |   '// '~('\n'|'\r')*     // a line comment could appear at the end of the file without CR/LF
     ;
 
         
