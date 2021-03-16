@@ -13,8 +13,13 @@ public class Main {
 		templateFileName = "Python.stg";
 	}
 	else {
+		if (!args[a].contains(".stg")){
+			templateFileName = "Python.stg";
+		}
+		else{
 		templateFileName = args[a];
 		a++;
+		}
 	}
 	templates = new StringTemplateGroup(new FileReader(templateFileName),
 					    AngleBracketTemplateLexer.class);
