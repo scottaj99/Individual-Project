@@ -6,7 +6,7 @@ venv\Scripts\activate
 2. Add antlr-3.5.2-complete.jar to CLASSPATH
 (on windows):
 ``` sh
-SET CLASSPATH=.;..\usr\local\lib\Inidividual-Project\antlr-3.5.2-complete.jar;%CLASSPATH%
+SET CLASSPATH=.;C:\{directoryPath}\antlr-3.5.2-complete.jar;%CLASSPATH%
 ```
 
 3. Enter the translator folder
