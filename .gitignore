@@ -1,0 +1,8 @@
+*.java
+*.class
+*.tokens
+!Main.java
+!test/j2pyTests/test/Package0/*.java
+!test/j2pyTests/success/*.java
+!test/j2pyTests/selector/*.java
+!test/j2pyTests/*.java
