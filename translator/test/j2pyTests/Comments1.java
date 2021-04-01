@@ -1,10 +1,3 @@
-/**
-
-multiline comment above the Comments class.
-
-**/
-
-// single line comment above the Comments class.
 
 class Comments1 {
     /** multi above other method **/

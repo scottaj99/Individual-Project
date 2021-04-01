@@ -18,8 +18,8 @@ class Interface2 implements Ham {
     }
 
     public static void main(String[] args) {
-	Interface2 d = new Interface2();
-        d.bar(0);
-        d.baz(1);
+	Interface2 d = new Interface2() ;
+        d.bar(0) ;
+        d.baz(1) ;
     }
 }

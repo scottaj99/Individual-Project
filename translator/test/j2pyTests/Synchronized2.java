@@ -25,12 +25,12 @@ class Synchronized2 {
     }
 
     public static void main(String[] args) {
-        Synchronized2 obj = new Synchronized2();
-        obj.test1();
-        obj.test1("test1");
-        obj.test1(1);
-        obj.test2();
-        obj.test2("test2");
-        obj.test2(2);
+        Synchronized2 obj = new Synchronized2() ;
+        obj.test1() ;
+        obj.test1("test1") ;
+        obj.test1(1) ;
+        obj.test2() ;
+        obj.test2("test2") ;
+        obj.test2(2) ;
     }
 }

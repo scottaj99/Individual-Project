@@ -126,3 +126,7 @@ normalClassDeclaration(mod, i, params, type, typeList, block) ::=<<
     class <i>:
         <block>
 >>
+
+int()::=<<
+    
+>>

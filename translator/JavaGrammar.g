@@ -867,7 +867,7 @@ annotationTypeElementDeclaration
     |   ';' ->annotationTypeElementDeclarationEmpty()
     ;
 annotationMethodDeclaration 
-    :   modifiers type i=IDENTIFIER
+    :   modifiers? type i=IDENTIFIER
         '(' ')' ('default' elementValue
                 )?
     ';'->annotationMethodDeclaration(mod={$modifiers.st}, type={$type.st}, i={$i.text}, elementValue={$elementValue.st})
@@ -934,8 +934,17 @@ statement
     |   ('assert'
         )
         e1=expression (':' e2=expression)? ';' ->assertStatementNL(e1={$e1.st}, e2={$e2.st})
-    |   'assert'  e1=expression (':' e2=expression)? ';' ->assertStatement(e1={$e1.st}, e2={$e2.st})          
-    |   'if' parExpression s1=statement ('else' s2=statement)?  ->ifStatement(parExpression={$parExpression.st},s1={$s1.st}, s2={$s2.st})        
+    |   'assert'  e1=expression (':' e2=expression)? ';' ->assertStatement(e1={$e1.st}, e2={$e2.st}) 
+
+
+
+    |   'if' parExpression s1=statement ('else' s2=statement)?  
+    ->ifStatement(parExpression={$parExpression.st},s1={$s1.st}, s2={$s2.st}) 
+
+
+
+
+
     |   forstatement ->{$forstatement.st}
     |   'while' parExpression st=statement ->whilestatement(parExpression={$parExpression.st}, statement={$st.st})
     |   'do' st=statement 'while' parExpression ';' ->doStatement(statement={$st.st}, parExpression={$parExpression.st})
@@ -1031,7 +1040,9 @@ forstatement
                 (expression
                 )? ';' 
                 (expressionList
-                )? ')' statement ->normalForLoop(forInit={$forInit.st}, expression={$expression.st}, expressionList={$expressionList.st}, statement={$statement.st})
+                )? ')' statement 
+                ->normalForLoop(forInit={$forInit.st}, expression={$expression.st},
+                 expressionList={$expressionList.st}, statement={$statement.st})
     ;
 forInit 
     :   localVariableDeclaration ->{$localVariableDeclaration.st}

@@ -4,6 +4,6 @@ class String0 {
     }
 
     public static void main(String[] args) {
-        test(String.valueOf(42)) ;
+        test(String.valueOf(42) ) ;
     }
 }

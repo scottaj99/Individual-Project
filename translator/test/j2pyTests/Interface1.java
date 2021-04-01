@@ -1,5 +1,5 @@
 interface I0 {
-    public int m(int x);
+    public int m(int x) ;
 }
 
 

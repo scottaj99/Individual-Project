@@ -57,11 +57,11 @@ formalParameterDeclsNormal(n, ns) ::=<<
 >>
 
 formalParameters(formalParameterDecls) ::=<<
-<formalParameterDecls>
+<if(formalParameterDecls)><formalParameterDecls><else>self<endif>
 >>
 
 identifierPrimary(i, is, identifierSuffix) ::=<<
-<i><if (is)>.<is; separator="."><endif><identifierSuffix>
+<i><if (is)>.<is; separator=".">(<identifierSuffix>)<endif><identifierSuffix>
 >>
 
 primaryExpression(p, selectors, symbol) ::=<<
@@ -163,13 +163,17 @@ classBodyDeclarationMemberDecl(memberDecl) ::=<<
 <memberDecl>
 >> 
 
+classBodyDeclarationComma() ::=<<
+>> 
+
+
 classBody(cbd) ::=<<
 <cbd; separator="\n">
 >> 
 
 normalClassDeclaration(mod, i, params, type, typeList, block) ::=<<
-class <i><if (typeList)>(<typeList>)<endif>:
-    <if(block)><block><else>None<endif>
+class <i><if (typeList)>(<typeList>)<endif><if (type)>(<type>)<endif>:
+    <block>
 >> 
 
 compilationUnit(annotations, packageDeclaration, importDeclaration, typeDeclaration) ::=<<
@@ -177,6 +181,10 @@ compilationUnit(annotations, packageDeclaration, importDeclaration, typeDeclarat
 <importDeclaration>
 <typeDeclaration>
 >>
+
+interfaceFieldDeclaration(mod, type, v1, vs) ::=<<
+<v1><if(vs)>,<vs><endif>
+>> 
 
 assign() ::=<<
 =
@@ -226,7 +234,7 @@ elif switchVal==<expression>
 >> 
 
 breakStatement(i) ::=<<
-break
+
 >>
 
 switchBlockStatementGroup(switchLabel, bs) ::=<<
@@ -275,7 +283,7 @@ for <i> in <expression>:
 >> 
 
 fieldDeclaration(mod, type, variableDeclarator, variableDeclarators) ::=<<
-    <variableDeclarator><if (variableDeclarators)>,<variableDeclarators; separator=","><endif>
+<variableDeclarator><if (variableDeclarators)>,<variableDeclarators; separator=","><endif>
 
 >>
 
@@ -354,8 +362,14 @@ defaultcase() ::=<<
 else
 >>
 
+innerCreator(nonWildcardTypeArguments, i, typeArguments) ::=<<
+.Inner()
+>> 
+
+
 methodDeclarationBrackets(mod, typeParameters, i, formalParameters, qualifiedNameList, explicitConstructorInvocation, blockStatements) ::= <<
     <i>(<formalParameters>):
+        <explicitConstructorInvocation>
         <blockStatements; separator="\n">
 >>
 
@@ -376,8 +390,8 @@ annotation(qualifiedName, elementValuePairs, elementValue) ::= <<
 >>
 
 annotationMethodDeclaration(mod, type, i, elementValue) ::=<<
-
-    #annotationMethodDeclaration to do
+    <i>():
+        <elementValue>
 
 >>
 
@@ -582,7 +596,7 @@ identifierStatement(i, statement) ::=<<
 >>
 
 enumConstant(annotations, i, arguments, block) ::=<<
-<i>
+    <i><arguments>
 >> 
 
 enumConstants(c1, cs) ::=<<
@@ -603,4 +617,50 @@ class <id>:
 
 enumBodyDeclarations(cbd) ::=<<
 <cbd; separator="\n">
+>>
+
+tildeExpression(unaryExpression)::=<<
+~<unaryExpression>
+>>
+notExpression(unaryExpression)::=<<
+!<unaryExpression>
+>>
+
+typeParameter(id, typeBound) ::=<<
+
+    #typeParameter to do
+
+>> 
+
+typeParameters(p1, ps) ::=<<
+
+    #typeParameters to do
+
+>>
+
+typeArgumentExtend(type) ::=<<
+
+    #typeArgumentExtend to do
+
+>>
+
+IDSuperSuffix(typeArguments, i, arguments) ::=<<
+
+    #IDSuperSuffix to do
+
+>> 
+
+superPrimary(superSuffix) ::=<<
+
+    #superPrimary to do
+
+>> 
+
+
+ellipsisParameterDecl(variableModifiers, type, i) ::=<<
+<i>
+>> 
+
+formalParameterDeclsEllipsis(ellipsisParameterDecl) ::=<<
+<ellipsisParameterDecl>
 >>

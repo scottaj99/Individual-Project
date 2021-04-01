@@ -6,9 +6,9 @@ class Class09 {
     }
 
     public static void main(String[] args) {
-        Class09 outer = new Class09();
-	Inner i = outer.new Inner();
-        i.check();
+        Class09 outer = new Class09() ;
+	Inner i = outer.new Inner() ;
+        i.check() ;
     }
 
 }

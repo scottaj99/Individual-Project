@@ -21,16 +21,16 @@ class Ctor0 {
     
 
     public static void main(String[] args) {
-        Ctor0 a = new Ctor0();
+        Ctor0 a = new Ctor0() ;
         System.out.println(a.m_foo);
         System.out.println(a.m_bar);
 
-        Ctor0 b = new Ctor0(1);
+        Ctor0 b = new Ctor0(1) ;
         System.out.println(b.m_foo);
         System.out.println(b.m_bar);
 
 
-        Ctor0 c = new Ctor0(2, 3);
+        Ctor0 c = new Ctor0(2, 3) ;
         System.out.println(c.m_foo);
         System.out.println(c.m_bar);
 

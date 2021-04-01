@@ -4,7 +4,7 @@ class Expr2 {
         int b = 2;
         int c = 3;
         int radius = 4;
-        int y = (radius*radius*a*(a + radius)*radius*b*b) / (c*c+a*a+b*b);
+        // int y = (radius*radius*a*(a + radius)*radius*b*b) / (c*c+a*a+b*b) ;
         System.out.println(y);
 
     }

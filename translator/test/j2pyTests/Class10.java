@@ -18,7 +18,7 @@ class Class10 implements Base, Extra {
     }
 
     public static void main(String[] args) {
-        Class10 i = new Class10();
+        Class10 i = new Class10() ;
         System.out.println(i.getClass().getName());
 
 	for (Class c : i.getClass().getInterfaces()) {

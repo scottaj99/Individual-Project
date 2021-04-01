@@ -9,9 +9,9 @@ class Synchronized1 {
     }
 
     public static void main(String[] args) {
-        Synchronized1 obj = new Synchronized1();
-        obj.run();
-        obj.class_run();
+        Synchronized1 obj = new Synchronized1() ;
+        obj.run() ;
+        obj.class_run() ;
 
     }
 }

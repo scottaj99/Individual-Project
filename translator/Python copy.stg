@@ -832,7 +832,7 @@ argumentsIdentifier(arguments) ::=<<
 
 identiferSelector(i, arguments) ::=<<
 
-    <i><if (arguments)><arguments><endif>
+    #identiferSelector to do
 
 >> 
 
