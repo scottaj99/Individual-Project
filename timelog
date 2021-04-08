@@ -115,3 +115,283 @@
 
 ##12 Nov 2020
 * *4 hours* update documentation, create plan for rest of year, work on simple helloWorld translation
+
+##13 Nov 2020
+* *1 hour* MEETING WITH DEREK
+* *1 hour* REVIEW MEETING NOTES, PLAN FOR NEXT STEPS
+
+##16 Nov 2020
+* *3 hour* try and apply listener approach to translation
+
+##17 Nov 2020
+* *1 hour* decide if this is the apporach to continue
+
+##18 Nov 2020
+* *2 hour* use github to see if htere is different ANTLR translators
+
+##19 Nov 2020
+* *2 hour* compile information on different ANTLR implementations
+
+##20 Nov 2020
+* *1 hour* MEETING WITH DEREK
+* *1 hour* REVIEW MEETING NOTES, PLAN FOR NEXT STEPS
+
+##23 Nov 2020
+* *2 hour* find cminus file and study it
+
+##24 Nov 2020
+* *2 hour* try build cminus example in ANTLR4
+
+##26 Nov 2020
+* *2 hour* try and find ST examples in ANTLR4
+
+##27 Nov 2020
+* *1 hour* MEETING WITH DEREK
+* *1 hour* REVIEW MEETING NOTES, PLAN FOR NEXT STEPS
+
+
+##30 Nov 2020
+* *2 hour* study newest versions of ST and ANTLR to see if they can combine
+
+##1 Dec 2020
+* *2 hour* study older version of ST and ANTLR and see if it is acceptable to use
+
+
+**EXAM**
+
+##7 December 2020
+* *2 hou*r accept older version of ANTLR and ST
+
+##8 December 2020
+* *2 hour* build cminus example for python 
+
+##9 December 2020
+* *2 hour* begin adapting cminus grammar file
+
+##10 December 2020
+* *2 hour* edit grammar file enough to understand how java would work
+
+##11 Dec 2020
+* *1 hour* MEETING WITH DEREK
+* *1 hour* REVIEW MEETING NOTES, PLAN FOR NEXT STEPS
+
+##14 Dec 2020
+* *5 hour* adapt grammar file to add java features
+
+##15 Dec 2020
+* *5 hour* adapt grammar file to add java features
+
+##16 Dec 2020
+* *5 hour* adapt string file to add python features
+
+##17 Dec 2020
+* *5 hour* adapt string file to add python features
+
+##18 Dec 2020
+* *5 hour* create satus report
+
+##11 Jan 2021
+* *3 hours* remailiarise
+
+##12 Jan 2021
+* *2 hours* look up Java.g file and try and apply to cminus grammar
+
+##13 Jan 2021
+* *2 hours* take out current grammar and put in java.g
+
+##14 Jan 2021
+* *1 hour* MEETING WITH DEREK
+* *1 hour* REVIEW MEETING NOTES, PLAN FOR NEXT STEPS
+
+##18 Jan 2021
+* *2 hour* start adding  ST rules to grammar file
+
+##19 Jan 2021
+* *2 hour* start adding  ST rules to grammar file
+
+##20 Jan 2021
+* *2 hour* start adding  ST rules to grammar file
+
+##21 Jan 2021
+* *1 hour* MEETING WITH DEREK
+* *1 hour* REVIEW MEETING NOTES, PLAN FOR NEXT STEPS
+
+##22 Jan 2021
+* *2 hour* start adding  ST rules to grammar file
+
+##25 Jan 2021
+* *2 hour* start adding  ST rules to grammar file
+
+##26 Jan 2021
+* *2 hour* start adding  ST rules to grammar file
+
+##27 Jan 2021
+* *2 hour* start writing ST rules
+
+##28 Jan 2021
+* *1 hour* MEETING WITH DEREK
+* *1 hour* REVIEW MEETING NOTES, PLAN FOR NEXT STEPS
+
+##29 Jan 2021
+* *2 hour* start writing ST rules
+
+##1 Feb 2021
+* *2 hour* start writing ST rules
+
+##2 Feb 2021
+* *2 hour* start writing ST rules
+
+##3 Feb 2021
+* *2 hour* start writing ST rules
+
+##4 Feb 2021
+* *1 hour* MEETING WITH DEREK
+* *1 hour* REVIEW MEETING NOTES, PLAN FOR NEXT STEPS
+
+##5 Feb 2021
+* *2 hour* start writing ST rules
+
+##8 Feb 2021
+* *2 hour*improve ST and grammar rules
+
+##9 Feb 2021
+* *2 hour*improve ST and grammar rules
+
+##10 Feb 2021
+* *2 hour*improve ST and grammar rules
+
+##11 Feb 2021
+* *1 hour* MEETING WITH DEREK
+* *1 hour* REVIEW MEETING NOTES, PLAN FOR NEXT STEPS
+
+##12 Feb 2021
+* *2 hour*improve ST and grammar rules
+
+##15 Feb 2021
+* *2 hour*improve ST and grammar rules
+
+##16 Feb 2021
+* *2 hour*improve ST and grammar rules
+
+##17 Feb 2021
+* *2 hour*improve ST and grammar rules
+
+##18 Feb 2021
+* *1 hour* MEETING WITH DEREK
+* *1 hour* REVIEW MEETING NOTES, PLAN FOR NEXT STEPS
+
+##19 Feb 2021
+* *2 hour*improve ST and grammar rules
+
+##22 Feb 2021
+* *2 hour* evaluating and refining each rule
+
+##23 Feb 2021
+* *2 hour* evaluating and refining each rule
+
+##24 Feb 2021
+* *2 hour* evaluating and refining each rule
+
+##25 Feb 2021
+* *1 hour* MEETING WITH DEREK
+* *1 hour* REVIEW MEETING NOTES, PLAN FOR NEXT STEPS
+
+##26 Feb 2021
+* *2 hour* evaluating and refining each rule
+
+##1 Mar 2021
+* *2 hour* write test files for MVP
+
+##2 Mar 2021
+* *2 hour* test files for MVP
+
+##3 Mar 2021
+* *2 hour* refine based on test file results for MVP
+
+##4 Mar 2021
+* *1 hour* MEETING WITH DEREK
+* *1 hour* REVIEW MEETING NOTES, PLAN FOR NEXT STEPS
+
+##5 Mar 2021
+* *2 hour* refine based on test file results for MVP
+
+##8 Mar 2021
+* *2 hour* Quantitative Eval
+
+##9 Mar 2021
+* *2 hour* Quantitative Eval
+
+##10 Mar 2021
+* *2 hour* Qualitative Eval
+
+##11 Mar 2021
+* *1 hour* MEETING WITH DEREK
+* *1 hour* REVIEW MEETING NOTES, PLAN FOR NEXT STEPS
+
+##12 Mar 2021
+* *2 hour* Qualitative Eval
+
+##15 Mar 2021
+* *2 hour* Start Dissertation
+
+##16 Mar 2021
+* *2 hours* Write Dissertation
+
+##17 Mar 2021
+* *2 hours* Write Dissertation
+
+##18 Mar 2021
+* *1 hour* MEETING WITH DEREK
+* *1 hour* REVIEW MEETING NOTES, PLAN FOR NEXT STEPS
+
+##19 Mar 2021
+* *2 hours* Write Dissertation
+
+##22 Mar 2021
+* *2 hours* Write Dissertation
+
+##23 Mar 2021
+* *2 hours* Write Dissertation
+
+##24 Mar 2021
+* *2 hours* Write Dissertation
+
+##25 Mar 2021
+* *1 hour* MEETING WITH DEREK
+* *1 hour* REVIEW MEETING NOTES, PLAN FOR NEXT STEPS
+
+##26 Mar 2021
+* *2 hours* Write Dissertation
+
+##29 Mar 2021
+* *2 hours* Write Dissertation
+
+##30 Mar 2021
+* *2 hours* Write Dissertation
+
+##31 Mar 2021
+* *2 hours* Write Dissertation
+
+##1 Apr 2021
+* *1 hour* MEETING WITH DEREK
+* *1 hour* REVIEW MEETING NOTES, PLAN FOR NEXT STEPS
+
+##2 Apr 2021
+* *4 hours* Write Dissertation
+
+##5 Apr 2021
+* *4 hours* Write Dissertation
+
+##6 Apr 2021
+* *4 hours* Write Dissertation
+
+##7 Apr 2021
+* *4 hours* Write Dissertation
+
+##8 Apr 2021
+* *4 hours* Make presentation 
+
+##9 Apr 2021
+* *4 hours* Finish Dissertation
+
+
